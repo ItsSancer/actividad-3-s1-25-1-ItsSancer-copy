@@ -20,7 +20,7 @@ jobs:
         - name: Install modules
           run: timeout 180s yarn
         - name: Run ESLint
-          run: timeout 180s yarn run eslint --fix.
+          run: timeout 180s yarn run eslint 
 
     Consulta-Api:
       runs-on: ubuntu-latest
