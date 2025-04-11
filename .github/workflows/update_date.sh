@@ -1,6 +1,6 @@
 #!/bin/bash
 
-readme_path="../../README.md"
+readme_path="./README.md"
 
 current_time=$(date +"%Y-%m-%d %H:%M:%S")
 

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-readme_path="../../README.md"
+readme_path="./README.md"
 
 
 version_line=$(grep -n -E "Versión actual:\s*v[0-9]+\.[0-9]+\.[0-9]+" "$readme_path")
