@@ -68,7 +68,7 @@ En esta actividad, vas a trabajar con **GitHub Actions** para automatizar tareas
    ### 🕒 4. Modificar `README.md` con un **timestamp**
    - Tu workflow también debe agregar un **timestamp** en el archivo `README.md` para indicar la última ejecución del workflow. Ejemplo:
      ```
-     Última ejecución: 2025-04-11 11:16:23
+     Última ejecución: 2025-04-11 15:35:22
      ```
 
 ---
