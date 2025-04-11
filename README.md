@@ -60,15 +60,15 @@ En esta actividad, vas a trabajar con **GitHub Actions** para automatizar tareas
    ### 🏷️ 3. Actualizar versión
    - Este `README.md` contiene un campo de versión como el siguiente:
      ```
-     Versión actual: v1.0.3
+     Versión actual: v1.0.4
      ```
-   - Tu workflow debe actualizar automáticamente este número de versión siguiendo el esquema `v<major>.<minor>.<patch>`, por ejemplo: `v1.0.3`, `v1.1.0`, etc.
-   - Para simplificar, puedes incrementar siempre el patch (`v1.0.0` → `v1.0.3`).
+   - Tu workflow debe actualizar automáticamente este número de versión siguiendo el esquema `v<major>.<minor>.<patch>`, por ejemplo: `v1.0.4`, `v1.1.0`, etc.
+   - Para simplificar, puedes incrementar siempre el patch (`v1.0.0` → `v1.0.4`).
 
    ### 🕒 4. Modificar `README.md` con un **timestamp**
    - Tu workflow también debe agregar un **timestamp** en el archivo `README.md` para indicar la última ejecución del workflow. Ejemplo:
      ```
-     Última ejecución: 2025-04-11 15:41:05
+     Última ejecución: 2025-04-11 17:28:50
      ```
 
 ---
