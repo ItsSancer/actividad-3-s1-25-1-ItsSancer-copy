@@ -14,6 +14,14 @@ jobs:
           bot_token: ${{ secrets.BOT_TOKEN }}
           chat_id: ${{ secrets.CHAT_ID }}
           message: |
-            Issue #${{ github.event.issue.number }}: ${{ github.event.issue.title }}
-            State: ${{ github.event.action }}
-            URL: ${{ github.event.issue.html_url }}
+            ${{- if eq(github.event_name, 'discussion') -}}
+            📢 *Nueva discussion* en categoría *${{ github.event.discussion.category.name }}*
+            *Título:* ${{ github.event.discussion.title }}
+            *Autor:* ${{ github.event.sender.login }}
+            ${{ github.event.discussion.html_url }}
+            ${{- else -}}
+            💬 *Nuevo comentario* en discussion *${{ github.event.discussion.title }}*
+            *Autor:* ${{ github.event.sender.login }}
+            > ${{ github.event.comment.body }}
+            ${{ github.event.comment.html_url }}
+            ${{- end -}}
