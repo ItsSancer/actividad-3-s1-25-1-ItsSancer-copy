@@ -1,21 +1,39 @@
-name: Issue → Telegram
+name: Issues → Telegram (custom)
 
 on:
   issues:
-    types: [opened, closed, reopened]
+    types: [opened, closed, reopened, edited]
 
 jobs:
   notify:
     runs-on: ubuntu-latest
     steps:
-      - name: Notify issue on Telegram
-        uses: EverythingSuckz/github-telegram-notify@v1.1.2
+      - name: Enviar notificación a Telegram
+        uses: appleboy/telegram-action@v1.0.1
         with:
-          bot_token: ${{ secrets.BOT_TOKEN }}
-          chat_id: ${{ secrets.CHAT_ID }}
+          token: ${{ secrets.BOT_TOKEN }}
+          to: ${{ secrets.CHAT_ID }}
+          parse_mode: Markdown
           message: |
-            📢 *Nueva discussion* en categoría *${{ github.event.discussion.category.name }}*
-            *Título:* ${{ github.event.discussion.title }}
-            *Autor:* ${{ github.event.sender.login }}
-            ${{ github.event.discussion.html_url }}
-   
+            ${{- if eq(github.event.action, 'opened') -}}
+            🆕 *Nueva issue* en *${{ github.repository }}*
+            *Título:* ${{ github.event.issue.title }}
+            *Autor:* ${{ github.event.issue.user.login }}
+            *Descripción:* ${{ github.event.issue.body }}
+            🔗 ${{ github.event.issue.html_url }}
+            ${{- else if eq(github.event.action, 'closed') -}}
+            ✅ *Issue cerrada* en *${{ github.repository }}*
+            *Título:* ${{ github.event.issue.title }}
+            *Cerrada por:* ${{ github.event.sender.login }}
+            🔗 ${{ github.event.issue.html_url }}
+            ${{- else if eq(github.event.action, 'reopened') -}}
+            ♻️ *Issue reabierta* en *${{ github.repository }}*
+            *Título:* ${{ github.event.issue.title }}
+            *Reabierta por:* ${{ github.event.sender.login }}
+            🔗 ${{ github.event.issue.html_url }}
+            ${{- else -}}
+            ✏️ *Issue editada* en *${{ github.repository }}*
+            *Título:* ${{ github.event.issue.title }}
+            *Último actor:* ${{ github.event.sender.login }}
+            🔗 ${{ github.event.issue.html_url }}
+            ${{- end -}}
