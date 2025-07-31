@@ -1,0 +1,19 @@
+name: Issue → Telegram
+
+on:
+  issues:
+    types: [opened, closed, reopened]
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notify issue on Telegram
+        uses: EverythingSuckz/github-telegram-notify@v1.1.2
+        with:
+          bot_token: ${{ secrets.BOT_TOKEN }}
+          chat_id: ${{ secrets.CHAT_ID }}
+          message: |
+            Issue #${{ github.event.issue.number }}: ${{ github.event.issue.title }}
+            State: ${{ github.event.action }}
+            URL: ${{ github.event.issue.html_url }}
