@@ -17,12 +17,17 @@ jobs:
           token: ${{ secrets.BOT_TOKEN }}
           to: ${{ secrets.CHAT_ID }}
           message: |
-            🚨 *Nueva Issue Abierta* 🚨
+            🚨Nueva Issue Abierta 🚨
+
             📁 Repositorio: ${{ github.repository }}
+
             📝 Título: ${{ github.event.issue.title }}
+
             👤 Autor: ${{ github.event.issue.user.login }}
+
             📝 Descripción:
             ${{ github.event.issue.body }}
+
             🔗 Enlace: ${{ github.event.issue.html_url }}
 
       - name: Notificar comentario en issue (texto plano)
@@ -32,9 +37,13 @@ jobs:
           token: ${{ secrets.BOT_TOKEN }}
           to: ${{ secrets.CHAT_ID }}
           message: |
-            💬 *Nuevo Comentario en Issue* 💬
+            💬 Nuevo Comentario en Issue💬
+
             📝 Issue: ${{ github.event.issue.title }}
+
             👤 Comentado por: ${{ github.event.comment.user.login }}
+
             🗒️ Comentario:
             ${{ github.event.comment.body }}
+            
             🔗 Enlace: ${{ github.event.comment.html_url }}
