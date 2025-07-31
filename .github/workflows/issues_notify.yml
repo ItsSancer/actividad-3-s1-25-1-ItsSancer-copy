@@ -1,4 +1,4 @@
-name: Issues → Telegram (custom)
+name: Issues → Telegram (clean)
 
 on:
   issues:
@@ -10,29 +10,29 @@ jobs:
   notify:
     runs-on: ubuntu-latest
     steps:
-      - name: Notificar nueva issue
+      - name: Notificar nueva issue (HTML)
         if: github.event_name == 'issues' && github.event.action == 'opened'
         uses: appleboy/telegram-action@v1.0.1
         with:
           token: ${{ secrets.BOT_TOKEN }}
           to: ${{ secrets.CHAT_ID }}
-          parse_mode: Markdown
+          parse_mode: HTML
           message: |
-            🆕 *Nueva issue* en *${{ github.repository }}*
-            *Título:* ${{ github.event.issue.title }}
-            *Autor:* ${{ github.event.issue.user.login }}
-            *Descripción:* ${{ github.event.issue.body }}
-            🔗 ${{ github.event.issue.html_url }}
+            🆕 <b>Nueva issue</b> en <i>${{ github.repository }}</i>
+            <b>Título:</b> ${{ github.event.issue.title }}
+            <b>Autor:</b> ${{ github.event.issue.user.login }}
+            <b>Descripción:</b><br/>${{ github.event.issue.body }}
+            <b>Link:</b> <a href="${{ github.event.issue.html_url }}">ver issue</a>
 
-      - name: Notificar comentario en issue
+      - name: Notificar comentario en issue (HTML)
         if: github.event_name == 'issue_comment' && github.event.action == 'created'
         uses: appleboy/telegram-action@v1.0.1
         with:
           token: ${{ secrets.BOT_TOKEN }}
           to: ${{ secrets.CHAT_ID }}
-          parse_mode: Markdown
+          parse_mode: HTML
           message: |
-            💬 *Nuevo comentario* en issue *${{ github.event.issue.title }}*
-            *Comentado por:* ${{ github.event.comment.user.login }}
-            > ${{ github.event.comment.body }}
-            🔗 ${{ github.event.comment.html_url }}
+            💬 <b>Nuevo comentario</b> en issue <i>${{ github.event.issue.title }}</i>
+            <b>Comentado por:</b> ${{ github.event.comment.user.login }}<br/>
+            <b>Comentario:</b><br/>${{ github.event.comment.body }}
+            <b>Link:</b> <a href="${{ github.event.comment.html_url }}">ver comentario</a>
