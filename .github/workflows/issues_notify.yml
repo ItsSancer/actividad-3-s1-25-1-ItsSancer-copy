@@ -13,30 +13,10 @@ jobs:
       - name: Notificar nueva issue en topic específico
         if: github.event_name == 'issues' && github.event.action == 'opened'
         run: |
-          MESSAGE="🚨 Nueva Issue Abierta 🚨
-📁 Repositorio: ${{ github.repository }}
-📝 Título: ${{ github.event.issue.title }}
-👤 Autor: ${{ github.event.issue.user.login }}
-📝 Descripción:
-${{ github.event.issue.body }}
-🔗 Enlace: ${{ github.event.issue.html_url }}"
+          MESSAGE="🚨 Nueva Issue Abierta 🚨\n 📁 Repositorio: ${{ github.repository }}\n 📝 Título: ${{ github.event.issue.title }}\n 👤 Autor: ${{ github.event.issue.user.login }}\n 📝 Descripción:\n${{ github.event.issue.body }}\n 🔗 Enlace: ${{ github.event.issue.html_url }}"
 
           curl -X POST "https://api.telegram.org/bot${{ secrets.BOT_TOKEN }}/sendMessage" \
             -d chat_id=${{ secrets.CHAT_ID }} \
             -d message_thread_id=2 \
             --data-urlencode text="$MESSAGE"
 
-      - name: Notificar comentario en issue en topic específico
-        if: github.event_name == 'issue_comment' && github.event.action == 'created'
-        run: |
-          MESSAGE="💬 Nuevo Comentario en Issue 💬
-📝 Issue: ${{ github.event.issue.title }}
-👤 Comentado por: ${{ github.event.comment.user.login }}
-🗒️ Comentario:
-${{ github.event.comment.body }}
-🔗 Enlace: ${{ github.event.comment.html_url }}"
-
-          curl -X POST "https://api.telegram.org/bot${{ secrets.BOT_TOKEN }}/sendMessage" \
-            -d chat_id=${{ secrets.CHAT_ID }} \
-            -d message_thread_id=2 \
-            --data-urlencode text="$MESSAGE"
