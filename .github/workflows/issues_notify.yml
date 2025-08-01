@@ -1,4 +1,4 @@
-name: Issues → Telegram topic plain
+name: Issues → Telegram topic decorated
 
 on:
   issues:
@@ -10,10 +10,15 @@ jobs:
   notify:
     runs-on: ubuntu-latest
     steps:
-      - name: Notify new issue
+      - name: Notificar nueva issue
         if: github.event_name == 'issues' && github.event.action == 'opened'
         run: |
-          MESSAGE=$(printf "Nueva issue abierta\nRepositorio: %s\nTítulo: %s\nAutor: %s\nDescripción:\n%s\nEnlace: %s" \
+          MESSAGE=$(printf "🚨 Nueva Issue Abierta 🚨\n\n" \
+            "📁 Repositorio: %s\n" \
+            "📝 Título: %s\n" \
+            "👤 Autor: %s\n\n" \
+            "🗒️ Descripción:\n%s\n\n" \
+            "🔗 Enlace: %s" \
             "${{ github.repository }}" \
             "${{ github.event.issue.title }}" \
             "${{ github.event.issue.user.login }}" \
@@ -23,12 +28,17 @@ jobs:
           curl -s -X POST "https://api.telegram.org/bot${{ secrets.BOT_TOKEN }}/sendMessage" \
             -d chat_id=${{ secrets.CHAT_ID }} \
             -d message_thread_id=2 \
+            --data-urlencode parse_mode="MarkdownV2" \
             --data-urlencode text="$MESSAGE"
 
-      - name: Notify new issue comment
+      - name: Notificar nuevo comentario en issue
         if: github.event_name == 'issue_comment' && github.event.action == 'created'
         run: |
-          MESSAGE=$(printf "Nuevo comentario en issue\nIssue: %s\nComentado por: %s\nComentario:\n%s\nEnlace: %s" \
+          MESSAGE=$(printf "💬 *Nuevo Comentario en Issue* 💬\n\n" \
+            "📝 Issue: %s\n" \
+            "👤 Comentado por: %s\n\n" \
+            "✏️ Comentario:\n%s\n\n" \
+            "🔗 Enlace: %s" \
             "${{ github.event.issue.title }}" \
             "${{ github.event.comment.user.login }}" \
             "${{ github.event.comment.body }}" \
@@ -37,4 +47,5 @@ jobs:
           curl -s -X POST "https://api.telegram.org/bot${{ secrets.BOT_TOKEN }}/sendMessage" \
             -d chat_id=${{ secrets.CHAT_ID }} \
             -d message_thread_id=2 \
+            --data-urlencode parse_mode="MarkdownV2" \
             --data-urlencode text="$MESSAGE"
