@@ -1,4 +1,4 @@
-name: Issues → Telegram topic decorated
+name: Issues → Telegram topic plain
 
 on:
   issues:
@@ -10,15 +10,10 @@ jobs:
   notify:
     runs-on: ubuntu-latest
     steps:
-      - name: Notificar nueva issue
+      - name: Notify new issue
         if: github.event_name == 'issues' && github.event.action == 'opened'
         run: |
-          MESSAGE=$(printf "🚨 Nueva Issue Abierta 🚨\n\n" \
-            "📁 Repositorio: %s\n" \
-            "📝 Título: %s\n" \
-            "👤 Autor: %s\n\n" \
-            "🗒️ Descripción:\n%s\n\n" \
-            "🔗 Enlace: %s" \
+          MESSAGE=$(printf "🚨 *Nueva Issue Abierta* 🚨\n\n 📁 Repositorio: %s\n📝 Título: %s\n👤 Autor: %s\n\n🗒️ Descripción:\n%s\n\nEnlace: %s" \
             "${{ github.repository }}" \
             "${{ github.event.issue.title }}" \
             "${{ github.event.issue.user.login }}" \
@@ -28,17 +23,12 @@ jobs:
           curl -s -X POST "https://api.telegram.org/bot${{ secrets.BOT_TOKEN }}/sendMessage" \
             -d chat_id=${{ secrets.CHAT_ID }} \
             -d message_thread_id=2 \
-            --data-urlencode parse_mode="MarkdownV2" \
             --data-urlencode text="$MESSAGE"
 
-      - name: Notificar nuevo comentario en issue
+      - name: Notify new issue comment
         if: github.event_name == 'issue_comment' && github.event.action == 'created'
         run: |
-          MESSAGE=$(printf "💬 *Nuevo Comentario en Issue* 💬\n\n" \
-            "📝 Issue: %s\n" \
-            "👤 Comentado por: %s\n\n" \
-            "✏️ Comentario:\n%s\n\n" \
-            "🔗 Enlace: %s" \
+          MESSAGE=$(printf "Nuevo comentario en issue\nIssue: %s\nComentado por: %s\nComentario:\n%s\nEnlace: %s" \
             "${{ github.event.issue.title }}" \
             "${{ github.event.comment.user.login }}" \
             "${{ github.event.comment.body }}" \
@@ -47,5 +37,6 @@ jobs:
           curl -s -X POST "https://api.telegram.org/bot${{ secrets.BOT_TOKEN }}/sendMessage" \
             -d chat_id=${{ secrets.CHAT_ID }} \
             -d message_thread_id=2 \
-            --data-urlencode parse_mode="MarkdownV2" \
             --data-urlencode text="$MESSAGE"
+
+
